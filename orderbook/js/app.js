@@ -57,6 +57,9 @@ app.get('/register', function (req, res) {
 app.get('/order/create', function (req, res) {
     var _a = req.query, url = _a.url, pair = _a.pair, addr = _a.addr, price = _a.price, amount = _a.amount, sig = _a.sig;
     var dir = req.query.dir;
+    if (dir != "buy")
+        if (dir != "sell")
+            return res.json({ error: { code: 1234, msg: "invalid operation direction! " + dir } });
     if (!orderbook[pair])
         orderbook[pair] = { buy: [], sell: [] };
     orderbook[pair][dir].push({ amount: amount, price: price, maker: addr, url: url });
